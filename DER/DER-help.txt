@@ -1,0 +1,1 @@
+perl md-eval-v21.pl -afc -c 1 -r <Ref.rttm> -s <Hyp.rttm> &> <outputfile>

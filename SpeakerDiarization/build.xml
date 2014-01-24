@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SpeakerSeperation" default="dist" basedir=".">
+	<property name="app.name" value="SpeakerSeperation" ></property>
+	<property name="build.home" value="${basedir}/build" ></property>
+	<property name="classes.home" value="${build.home}/classes"/>
+	<property name="src.home" value="${basedir}/src" />
+	<property name="lib.home" value="${basedir}/lib" />
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init" depends = "clean">
+		<mkdir dir="${build.home}" ></mkdir>
+		<mkdir dir="${classes.home}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="clean">
+		<delete dir="${build.home}" />
+	</target>
+
+	<!-- =================================
+          target: compile              
+         =================================-->
+	<target name="compile" depends="init" description="Compile java sources">
+		<javac srcdir="${src.home}" destdir="${classes.home}"  classpath="${src.home}/lium_lib.jar" includeantruntime="on" encoding = "gbk"/>
+		<copy todir="${classes.home}">
+			<fileset dir="${src.home}" excludes="**/*.java"></fileset>
+		</copy>
+	</target>
+	
+	<!-- =================================
+          target: jar              
+         ================================= -->
+	<target name="dist" depends="compile">
+		<jar destfile="${build.home}/${app.name}.jar" basedir="${classes.home}">
+			<manifest>
+				<attribute name="Main-Class" value="system.Diarization_cluster"/>
+				<attribute name="Class-Path" value="./ ./lium_lib.jar" ></attribute>
+			</manifest>
+		</jar>
+	</target>
+</project>
