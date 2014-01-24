@@ -22,6 +22,7 @@ do
 		fileBase=`basename $file`
 		fileBase=${fileBase%.wav}
 
+		echo $file
 		java -Xmx4G -jar $testTool --fInputMask=$file   --sOutputMask=${file%.wav}".seg"  --sOutputFormat=seg $fileBase 
 								
 		echo >& 6
