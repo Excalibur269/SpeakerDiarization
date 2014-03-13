@@ -162,10 +162,10 @@ public abstract class ParameterSegmentationFile extends ParameterBase implements
 	 */
 	public ParameterSegmentationFile(Parameter parameter) {
 		super(parameter);
-		setFormat(SegmentationFormat.FILE_XML_EPAC);
+		setFormat(SegmentationFormat.FILE_SEG);
 		encoding = Parameter.DefaultCharset;
 		setMask("");
-		type = "seg.xml";
+		type = "seg";
 		setRate(100);
 	}
 

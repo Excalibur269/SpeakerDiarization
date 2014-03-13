@@ -70,6 +70,7 @@ public class ParameterSegmentationFilterFile extends ParameterSegmentationFile i
 	}
 
 	/**
+	 * called
 	 * Sets the cluster filter name.
 	 * 
 	 * @param clusterFilterName the new cluster filter name

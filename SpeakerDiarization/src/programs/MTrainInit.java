@@ -46,6 +46,7 @@ public class MTrainInit {
 	private final static Logger logger = Logger.getLogger(MTrainInit.class.getName());
 
 	/**
+	 * called
 	 * Make.
 	 * 
 	 * @param featureSet the feature set

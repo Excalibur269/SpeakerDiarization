@@ -82,6 +82,7 @@ public class BICHClustering extends HClustering {
 	}
 
 	/**
+	 * called
 	 * Compute a BIC distance between \e i and \e j.
 	 * 
 	 * @param i the i index

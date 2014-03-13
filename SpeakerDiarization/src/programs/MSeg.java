@@ -92,6 +92,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * select the true border from the array of similarities.
 	 * 
 	 * @param measures the measures
@@ -136,6 +137,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * add Borders to Clusters.
 	 * 
 	 * @param idx the idx
@@ -172,6 +174,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * Compute all the similarity.
 	 * 
 	 * @param featureSet the feature set
@@ -284,6 +287,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * Do split2.
 	 * µÝ¹éµ÷ÓÃ
 	 * 
@@ -339,6 +343,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * select and compute the similarity method.
 	 * 
 	 * @param leftGaussian the first Gaussien
@@ -492,6 +497,7 @@ public class MSeg {
 	}
 
 	/**
+	 * called
 	 * Make.
 	 * 
 	 * @param featureSet the feature set

@@ -246,6 +246,7 @@ public class CLRHClustering extends HClustering {
 	}
 
 	/**
+	 * called
 	 * Initialize clustering. Train the model of each cluster and compute the distances between the clusters.
 	 * 
 	 * @param indexOfFirstMergeCandidate the index of first merge candidate
@@ -274,6 +275,7 @@ public class CLRHClustering extends HClustering {
 	}
 
 	/**
+	 * called
 	 * Merge two clusters and update model and distances.
 	 * 
 	 * @throws DiarizationException the sphinx clust exception

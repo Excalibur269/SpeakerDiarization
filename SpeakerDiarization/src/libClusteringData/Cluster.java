@@ -21,7 +21,6 @@
 
 package libClusteringData;
 
-import java.awt.List;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
@@ -45,7 +44,6 @@ import libClusteringData.transcription.EntitySet;
 import libClusteringData.transcription.Link;
 import libClusteringData.transcription.LinkSet;
 import libModel.ModelScores;
-import libNamedSpeaker.SpeakerNameUtils;
 
 /**
  * Container for the storage of segments. A cluster generally corresponds to speaker.
@@ -745,46 +743,4 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
 	public void setModelScores(ModelScores modelScores) {
 		this.modelScores = modelScores;
 	}
-
-	/**
-	 * Write as eger.
-	 * 
-	 * @param dos the dos
-	 * @param type the type
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public void writeAsEGER(OutputStreamWriter dos, String type) throws IOException {
-		String line;
-		String nameEN;
-		for (Segment segment : segmentSet) {
-			if (type.equals("writing")) {
-				EntitySet entitySet = segment.getTranscription().getEntitySet();
-				for (Entity entity : entitySet) {
-// logger.info("WRITING entity : "+entity.getListOfWords());
-					if (entity.isPerson()) {
-						nameEN = SpeakerNameUtils.normalizeSpeakerName(entity.getListOfWords());
-						line = segment.getShowName();
-						line += " " + segment.getStartInSecond();
-						line += " " + segment.getLastInSecond();
-						line += " written";
-						line += " " + nameEN + "\n";
-						if (segment.getLength() > 0) {
-							dos.write(line);
-						}
-					}
-				}
-
-			} else {
-				line = segment.getShowName();
-				line += " " + segment.getStartInSecond();
-				line += " " + segment.getLastInSecond();
-				line += " " + type;
-				line += " " + name + "\n";
-				if (segment.getLength() > 0) {
-					dos.write(line);
-				}
-			}
-		}
-	}
-
 }

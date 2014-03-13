@@ -48,7 +48,7 @@ import libClusteringData.transcription.EntitySet;
 import libClusteringData.transcription.Link;
 import libClusteringData.transcription.LinkSet;
 import libClusteringData.transcription.Path;
-import libSCTree.SCTProbabilities;
+//import libSCTree.SCTProbabilities;
 import lib.DiarizationException;
 import libClusteringData.Cluster;
 import libClusteringData.ClusterSet;
@@ -170,18 +170,18 @@ public class XmlEPACInputOutput {
 			self.appendChild(pathElement);
 		}
 
-		for (String name : entity.getScores().keySet()) {
-			Element scoresElement = document.createElement("scores");
-			scoresElement.setAttribute("name", name);
-			self.appendChild(scoresElement);
-			SCTProbabilities score = entity.getScore(name);
-			for (String key : score.keySet()) {
-				Element scoreElement = document.createElement("score");
-				scoreElement.setAttribute("key", key);
-				scoreElement.setAttribute("value", String.valueOf(score.get(key)));
-				scoresElement.appendChild(scoreElement);
-			}
-		}
+//		for (String name : entity.getScores().keySet()) {
+//			Element scoresElement = document.createElement("scores");
+//			scoresElement.setAttribute("name", name);
+//			self.appendChild(scoresElement);
+//			SCTProbabilities score = entity.getScore(name);
+//			for (String key : score.keySet()) {
+//				Element scoreElement = document.createElement("score");
+//				scoreElement.setAttribute("key", key);
+//				scoreElement.setAttribute("value", String.valueOf(score.get(key)));
+//				scoresElement.appendChild(scoreElement);
+//			}
+//		}
 	}
 
 	/**
@@ -237,7 +237,7 @@ public class XmlEPACInputOutput {
 			if (nodeScores instanceof Element) {
 				NodeList scoreList = ((Element) nodeScores).getElementsByTagName("score");
 				String name = ((Element) nodeScores).getAttribute("name");
-				SCTProbabilities probabilities = entity.getScore(name);
+//				SCTProbabilities probabilities = entity.getScore(name);
 				for (int j = 0; j < scoreList.getLength(); j++) {
 					Node nodeScore = scoreList.item(j);
 					if (nodeScore instanceof Element) {
@@ -245,7 +245,7 @@ public class XmlEPACInputOutput {
 						String v = ((Element) nodeScore).getAttribute("value");
 						double value = Double.parseDouble(v);
 // logger.info(name+" = "+key+" --> "+value);
-						probabilities.put(key, value);
+//						probabilities.put(key, value);
 					}
 				}
 

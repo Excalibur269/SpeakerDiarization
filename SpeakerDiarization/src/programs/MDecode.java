@@ -50,6 +50,7 @@ public class MDecode {
 	private final static Logger logger = Logger.getLogger(MDecode.class.getName());
 
 	/**
+	 * called
 	 * Make.
 	 * 
 	 * @param featureSet the feature set
@@ -75,10 +76,6 @@ public class MDecode {
 		TreeSet<Segment> segmentListToDecode = clusterSet.getSegments();
 
 		for (Segment segment : segmentListToDecode) {
-			
-//			if(segment.getLength() == 0){
-//				System.out.println("====="+segment.getStart()+"======Line 78: segment's length is ZERO=========================");
-//			}
 			clusterToDecode.addSegment(segment);
 		}
 		LinkedList<Integer> list = clusterSetToDecode.collapse(0);

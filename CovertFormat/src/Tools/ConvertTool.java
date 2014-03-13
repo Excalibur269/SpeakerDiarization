@@ -179,7 +179,7 @@ public class ConvertTool
 	{
 		String path = file.getAbsolutePath();
 		InputStream input = new FileInputStream(path);
-		InputStreamReader reader = new InputStreamReader(input, "UTF-8");
+		InputStreamReader reader = new InputStreamReader(input, "UTF-16BE");
 		BufferedReader br = new BufferedReader(reader);
 		
 //		String showName = file.getAbsolutePath();//seg中记入绝对路径
@@ -226,10 +226,10 @@ public class ConvertTool
 
 					if (!tempSpeakerName.equals("\"\"")){
 						start = globalStart;
-						if(tempSpeakerName.equals("\"A+B\"")){
-							seg = new Seg(showName, start,during, "OS");
-						}else
-							seg = new Seg(showName, start,during, "S");
+//						if(tempSpeakerName.equals("\"A+B\"")){
+//							seg = new Seg(showName, start,during, "OS");
+//						}else
+						seg = new Seg(showName, start,during, "S");
 						source += seg.toString();
 					} else if(getNS){
 						seg = new Seg(showName, start,during, "N");
@@ -247,7 +247,7 @@ public class ConvertTool
 			}
 		}
 		
-		FileWriter fileWriter = new FileWriter(new File("all.seg"),true);
+		FileWriter fileWriter = new FileWriter(new File("all_200h.seg"),true);
 		fileWriter.append(source);
 		fileWriter.flush();
 		fileWriter.close();

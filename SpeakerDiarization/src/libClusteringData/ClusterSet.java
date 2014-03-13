@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -49,8 +50,6 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 import system.EPAC.xml.XmlEPACInputOutput;
-import system.MEDIA.xml.XmlMEDIAInputOutput;
-import system.REPERE.xml.XmlREPEREInputOutput;
 import libClusteringData.speakerName.SpeakerName;
 import libClusteringData.transcription.Entity;
 import libClusteringData.transcription.EntitySet;
@@ -295,6 +294,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Collapse segments form a cluster that are contiguous.
 	 * 
 	 * @return the array list
@@ -310,6 +310,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Collapse segments form a cluster that are contiguous.
 	 * 
 	 * @param delay the delay
@@ -435,6 +436,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Gets the or create a new cluster.
 	 * 
 	 * @param key the name of the cluster
@@ -619,6 +621,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Create a New cluster with key as name.
 	 * 
 	 * @param key the key
@@ -649,6 +652,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Read a list of segmentation files.
 	 * 
 	 * @param show the list of show to read
@@ -671,10 +675,6 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 			readCTL(file, parameter.getEncoding(), rate);
 		} else if (format.equals(ParameterSegmentationFile.SegmentationFormat.FILE_XML_EPAC)) {
 			readXmlEPAC(file, parameter.getEncoding(), rate);
-		} else if (format.equals(ParameterSegmentationFile.SegmentationFormat.FILE_XML_MEDIA)) {
-			readXmlMEDIA(file, parameter.getEncoding(), rate);
-		} else if (format.equals(ParameterSegmentationFile.SegmentationFormat.FILE_XML_REPERE)) {
-			readXmlREPERE(file, parameter.getEncoding(), rate);
 		} else {
 			readSeg(file, parameter.getEncoding(), rate);
 		}
@@ -722,11 +722,11 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	 * @param rate the rate
 	 * @throws Exception the exception
 	 */
-	public void readXmlREPERE(File f, Charset encoding, float rate) throws Exception {
-		XmlREPEREInputOutput xml = new XmlREPEREInputOutput();
-		logger.warning("--> " + encoding.toString() + " rate=" + rate);
-		xml.readXML(this, f, encoding, rate);
-	}
+//	public void readXmlREPERE(File f, Charset encoding, float rate) throws Exception {
+//		XmlREPEREInputOutput xml = new XmlREPEREInputOutput();
+//		logger.warning("--> " + encoding.toString() + " rate=" + rate);
+//		xml.readXML(this, f, encoding, rate);
+//	}
 
 	/**
 	 * Read xml for MEDIA format.
@@ -736,12 +736,13 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	 * @param rate the rate
 	 * @throws Exception the exception
 	 */
-	public void readXmlMEDIA(File f, Charset encoding, float rate) throws Exception {
-		XmlMEDIAInputOutput xmlMEDIA = new XmlMEDIAInputOutput();
-		xmlMEDIA.readXML(this, f, encoding, rate);
-	}
+//	public void readXmlMEDIA(File f, Charset encoding, float rate) throws Exception {
+//		XmlMEDIAInputOutput xmlMEDIA = new XmlMEDIAInputOutput();
+//		xmlMEDIA.readXML(this, f, encoding, rate);
+//	}
 
 	/**
+	 * called
 	 * Read a segmentation file.
 	 * 
 	 * @param f the f
@@ -755,6 +756,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Read buffer (seg format).
 	 * 
 	 * @param bufferedReader the buffered reader
@@ -763,7 +765,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	 */
 	public void readSegBuffer(BufferedReader bufferedReader, float rate) throws Exception {
 		String line;
-		String show = null;
+		String show = " ";
 		String name = null;
 		while ((line = bufferedReader.readLine()) != null) {
 			char[] linechar = line.toCharArray();
@@ -787,38 +789,61 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 			String segmentEnvironement = null;
 			StringTokenizer stringTokenizer = new StringTokenizer(line, " ");
 			int result = 0;
+			
+			//------------------------------------------------------//
 			while (stringTokenizer.hasMoreTokens()) {
 				if (result == 0) {
-					show = stringTokenizer.nextToken();
+					segmentStart = (int)(100 * Double.parseDouble(stringTokenizer.nextToken()));
 				} else if (result == 1) {
-					segmentChannel = stringTokenizer.nextToken();
+					double endInSecond = Double.parseDouble(stringTokenizer.nextToken());
+					if(endInSecond*100 > segmentStart){
+						segmentLen = (int)(100*endInSecond) - segmentStart;
+					}
 				} else if (result == 2) {
-					segmentStart = Integer.parseInt(stringTokenizer.nextToken());
-				} else if (result == 3) {
-					segmentLen = Integer.parseInt(stringTokenizer.nextToken());
-				} else if (result == 4) {
-					segmentGender = stringTokenizer.nextToken();
-				} else if (result == 5) {
-					segmentBand = stringTokenizer.nextToken();
-				} else if (result == 6) {
-					segmentEnvironement = stringTokenizer.nextToken();
-				} else if (result == 7) {
 					name = stringTokenizer.nextToken();
+					if(name.equals("0")){
+						name = "N";
+					}else{
+						name = "S";
+					}
 					break;
-				}
+				} 
 				result++;
 			}
-			if (result != 7) {
+			if (result != 2) {
 				throw new IOException("segmentation read error \n" + line + "\n ");
 			}
+//			while (stringTokenizer.hasMoreTokens()) {
+//				if (result == 0) {
+//					show = stringTokenizer.nextToken();
+//				} else if (result == 1) {
+//					segmentChannel = stringTokenizer.nextToken();
+//				} else if (result == 2) {
+//					segmentStart = Integer.parseInt(stringTokenizer.nextToken());
+//				} else if (result == 3) {
+//					segmentLen = Integer.parseInt(stringTokenizer.nextToken());
+//				} else if (result == 4) {
+//					segmentGender = stringTokenizer.nextToken();
+//				} else if (result == 5) {
+//					segmentBand = stringTokenizer.nextToken();
+//				} else if (result == 6) {
+//					segmentEnvironement = stringTokenizer.nextToken();
+//				} else if (result == 7) {
+//					name = stringTokenizer.nextToken();
+//					break;
+//				}
+//				result++;
+//			}
+//			if (result != 7) {
+//				throw new IOException("segmentation read error \n" + line + "\n ");
+//			}
 			String key, value = "";
-			String newShow = new String(show);
 			Cluster cluster = getOrCreateANewCluster(name);
 			cluster.setGender(segmentGender); // problem if segments have different Gender for this cluster
 			cluster.setBandwidth(segmentBand); // problem if segments have different Band for this cluster
 			cluster.setChannel(segmentChannel);
 
-			Segment segment = new Segment(newShow, segmentStart, segmentLen, cluster, rate);
+			Segment segment = new Segment(" ", segmentStart, segmentLen, cluster, rate);
 
 			while (stringTokenizer.hasMoreTokens()) {
 				stringTokenizer.nextToken();
@@ -999,6 +1024,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	}
 
 	/**
+	 * called
 	 * Write a segmentation.
 	 * 
 	 * @param showName the show name
@@ -1012,48 +1038,13 @@ public class ClusterSet implements Cloneable, Iterable<String> {
 	public void write(String showName, ParameterSegmentationFile param) throws IOException, ParserConfigurationException, SAXException, DiarizationException, TransformerException {
 		String segOutFilename = IOFile.getFilename(param.getMask(), showName);
 //		logger.info("--> write ClusterSet : " + segOutFilename + " / " + showName);
-		System.err.println("\tDone! Please check " + segOutFilename+" for result");
+		Date date = new Date();
+		System.err.println(date+"\tDone! Please check " + segOutFilename+" for result");
 		File f = new File(segOutFilename);
 		SegmentationFormat format = param.getFormat();
 		if (format.equals(ParameterSegmentationFile.SegmentationFormat.FILE_XML_EPAC)) {
 			XmlEPACInputOutput xmlEPAC = new XmlEPACInputOutput();
 			xmlEPAC.writeXML(this, f, param.getEncoding());
-		} else if (format.equals(ParameterSegmentationFile.SegmentationFormat.FILE_XML_MEDIA)) {
-			XmlMEDIAInputOutput xmlMEDIA = new XmlMEDIAInputOutput();
-			xmlMEDIA.writeXML(this, f, param.getEncoding());
-		} else if (param.getFormat().equals(ParameterSegmentationFile.SegmentationFormat.FILE_EGER_HYP)) {
-			OutputStreamWriter dos = new OutputStreamWriter(new FileOutputStream(f), param.getEncoding());
-			for (Cluster cluster : clusterMap.values()) {
-				cluster.writeAsEGER(dos, type);
-			}
-			if (headClusterSet != null) {
-				logger.info("save HEAD !");
-				for (Cluster cluster : headClusterSet.clusterMap.values()) {
-					cluster.writeAsEGER(dos, headClusterSet.type);
-				}
-			}
-			// if (writing != null) {
-			// writing.writeAsEGER(dos, "writing");
-			// }
-			dos.close();
-
-			segOutFilename = IOFile.getFilename(param.getMask(), showName) + ".seg";
-			f = new File(segOutFilename);
-			dos = new OutputStreamWriter(new FileOutputStream(f), param.getEncoding());
-			for (Cluster cluster : clusterMap.values()) {
-				Set<Entry<String, Object>> set = getInformation().entrySet();
-				for (Entry<String, Object> entry : set) {
-					dos.write(";; clusterSet " + entry.getKey() + " " + entry.getValue().toString() + "\n");
-				}
-				cluster.writeAsSeg(dos);
-			}
-			dos.close();
-
-		} else if (param.getFormat().equals(ParameterSegmentationFile.SegmentationFormat.FILE_CTL)) {
-			OutputStreamWriter dos = new OutputStreamWriter(new FileOutputStream(f), param.getEncoding());
-			for (Cluster cluster : clusterMap.values()) {
-				cluster.writeAsCTL(dos);
-			}
 		} else {
 			if (headClusterSet != null) {
 				logger.info("save HEAD !");

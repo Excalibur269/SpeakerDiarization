@@ -36,12 +36,11 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
-
-import libModel.gaussian.GMMArrayList;
 
 import lib.DiarizationException;
 import lib.IOFile;
@@ -51,6 +50,7 @@ import lib.StringListFileIO;
 import libClusteringData.Cluster;
 import libClusteringData.ClusterSet;
 import libClusteringData.Segment;
+import libModel.gaussian.GMMArrayList;
 import parameter.ParameterAudioFeature;
 import parameter.ParameterAudioFeature.SpeechDetectorMethod;
 
@@ -94,8 +94,9 @@ public class AudioFeatureSet implements Cloneable {
 	public static final int AUDIO16Khz2SPHINXMFCC = 6;
 	/**
 	 * The Constant AUDIO8Khz2SPHINX.
+	 * ?????????
 	 */
-	public static final int AUDIO22kHz2SPHINXMFCC = 7;
+	public static final int AUDIO6kHz2SPHINXMFCC = 7;
 	/**
 	 * The Constant AUDIO8Khz2SPHINX.
 	 */
@@ -131,7 +132,7 @@ public class AudioFeatureSet implements Cloneable {
 	/**
 	 * The fontend22k hz config url.
 	 */
-	protected URL fontend22kHzConfigURL;
+	protected URL fontend6kHzConfigURL;
 	/**
 	 * The fontend16k hz config url.
 	 */
@@ -229,9 +230,7 @@ public class AudioFeatureSet implements Cloneable {
 	 * **********************************************************************************
 	 */
 	public AudioFeatureSet(ClusterSet clusterSet, ParameterAudioFeature parameterInputFeature) throws IOException, DiarizationException {
-		fontend48kHzConfigURL = getClass().getResource("frontend.config.48kHz.xml");
-		fontend44kHzConfigURL = getClass().getResource("frontend.config.44kHz.xml");
-		fontend22kHzConfigURL = getClass().getResource("frontend.config.22kHz.xml");
+		fontend6kHzConfigURL = getClass().getResource("frontend.config.6kHz.xml");
 		fontend16kHzConfigURL = getClass().getResource("frontend.config.16kHz.xml");
 		fontend8kHzConfigURL = getClass().getResource("frontend.config.8kHz.xml");
 
@@ -269,7 +268,7 @@ public class AudioFeatureSet implements Cloneable {
 	public AudioFeatureSet(AudioFeatureSet features, ClusterSet clusterSet, ParameterAudioFeature parameterInputFeature) throws IOException, DiarizationException {
 		fontend48kHzConfigURL = getClass().getResource("frontend.config.48kHz.xml");
 		fontend44kHzConfigURL = getClass().getResource("frontend.config.44kHz.xml");
-		fontend22kHzConfigURL = getClass().getResource("frontend.config.22kHz.xml");
+		fontend6kHzConfigURL = getClass().getResource("frontend.config.22kHz.xml");
 		fontend16kHzConfigURL = getClass().getResource("frontend.config.16kHz.xml");
 		fontend8kHzConfigURL = getClass().getResource("frontend.config.8kHz.xml");
 		source = features;
@@ -300,7 +299,7 @@ public class AudioFeatureSet implements Cloneable {
 	public AudioFeatureSet(int initialCapacity, AudioFeatureDescription description) {
 		fontend48kHzConfigURL = getClass().getResource("frontend.config.48kHz.xml");
 		fontend44kHzConfigURL = getClass().getResource("frontend.config.44kHz.xml");
-		fontend22kHzConfigURL = getClass().getResource("frontend.config.22kHz.xml");
+		fontend6kHzConfigURL = getClass().getResource("frontend.config.22kHz.xml");
 		fontend16kHzConfigURL = getClass().getResource("frontend.config.16kHz.xml");
 		fontend8kHzConfigURL = getClass().getResource("frontend.config.8kHz.xml");
 		initialDesc = (AudioFeatureDescription) description.clone();
@@ -729,6 +728,7 @@ public class AudioFeatureSet implements Cloneable {
 	}
 
 	/**
+	 * called
 	 * Get the number of frames.
 	 *
 	 * @return the number of frames
@@ -746,6 +746,7 @@ public class AudioFeatureSet implements Cloneable {
 	 * @return the static dimension of the features: sizeof(static + E)
 	 */
 	public int getStaticFeatureSize() {
+		
 		AudioFeatureDescription tmpFeatureDesc = currentFileDesc;
 		if (tmpFeatureDesc == null) {
 			tmpFeatureDesc = initialDesc.getTrimmedFeatureDesc();
@@ -869,6 +870,7 @@ public class AudioFeatureSet implements Cloneable {
 	}
 
 	/**
+	 * called
 	 * Read.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -903,16 +905,8 @@ public class AudioFeatureSet implements Cloneable {
 				currentFeatureList = AudioFeatureSetFactory.MakeMFCCFeature(fontend8kHzConfigURL, currentFilename, currentFileDesc);
 				deltaType = SPHINX;
 				makeChangePositionOfEnergy();
-			} else if (inputType == AUDIO22kHz2SPHINXMFCC) {
-				currentFeatureList = AudioFeatureSetFactory.MakeMFCCFeature(fontend22kHzConfigURL, currentFilename, currentFileDesc);
-				deltaType = SPHINX;
-				makeChangePositionOfEnergy();
-			} else if (inputType == AUDIO44kHz2SPHINXMFCC) {
-				currentFeatureList = AudioFeatureSetFactory.MakeMFCCFeature(fontend44kHzConfigURL, currentFilename, currentFileDesc);
-				deltaType = SPHINX;
-				makeChangePositionOfEnergy();
-			} else if (inputType == AUDIO48kHz2SPHINXMFCC) {
-				currentFeatureList = AudioFeatureSetFactory.MakeMFCCFeature(fontend48kHzConfigURL, currentFilename, currentFileDesc);
+			} else if (inputType == AUDIO6kHz2SPHINXMFCC) {
+				currentFeatureList = AudioFeatureSetFactory.MakeMFCCFeature(fontend6kHzConfigURL, currentFilename, currentFileDesc);
 				deltaType = SPHINX;
 				makeChangePositionOfEnergy();
 			} else if (inputType == FEATURESETTRANSFORMATION) {
@@ -929,10 +923,6 @@ public class AudioFeatureSet implements Cloneable {
 			removeUnneededCoefficients();
 			normalize();
 			currentFileDesc = initialDesc.getTrimmedFeatureDesc();
-
-			if (SpkDiarizationLogger.DEBUG) {
-				debug();
-			}
 			float rate = MainTools.calculateMemoryUsage(true, memoryOccupationRate);
 			if (rate > memoryOccupationRate) {
 				while (rate > (0.75 * memoryOccupationRate)) {
@@ -1304,6 +1294,7 @@ public class AudioFeatureSet implements Cloneable {
 	}
 
 	/**
+	 * called
 	 * Check if the current show is the one with index \e showIndex; if not, the
 	 * show with this index is read.
 	 *

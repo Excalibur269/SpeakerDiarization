@@ -32,7 +32,7 @@ public abstract class ParameterAudioFeature extends ParameterBase implements Clo
 
 	/** The Constant AudioFeaturesTypeString. */
 	public final static String[] AudioFeaturesTypeString = { "spro4", "htk", "sphinx", "gztxt",
-			"featureSetTransformation", "audio8kHz2sphinx", "audio16kHz2sphinx", "audio22kHz2sphinx",
+			"featureSetTransformation", "audio8kHz2sphinx", "audio16kHz2sphinx", "audio6kHz2sphinx",
 			"audio44kHz2sphinx", "audio48kHz2sphinx" };
 
 	/** The Constant DeltaTypeString. */
@@ -508,8 +508,8 @@ public abstract class ParameterAudioFeature extends ParameterBase implements Clo
 			featureDescription.setFeaturesFormat(AudioFeatureSet.AUDIO8kHz2SPHINXMFCC);
 		} else if (inputType.equals(AudioFeaturesTypeString[AudioFeatureSet.AUDIO16Khz2SPHINXMFCC])) {
 			featureDescription.setFeaturesFormat(AudioFeatureSet.AUDIO16Khz2SPHINXMFCC);
-		} else if (inputType.equals(AudioFeaturesTypeString[AudioFeatureSet.AUDIO22kHz2SPHINXMFCC])) {
-			featureDescription.setFeaturesFormat(AudioFeatureSet.AUDIO22kHz2SPHINXMFCC);
+		} else if (inputType.equals(AudioFeaturesTypeString[AudioFeatureSet.AUDIO6kHz2SPHINXMFCC])) {
+			featureDescription.setFeaturesFormat(AudioFeatureSet.AUDIO6kHz2SPHINXMFCC);
 		} else if (inputType.equals(AudioFeaturesTypeString[AudioFeatureSet.AUDIO44kHz2SPHINXMFCC])) {
 			featureDescription.setFeaturesFormat(AudioFeatureSet.AUDIO44kHz2SPHINXMFCC);
 		} else if (inputType.equals(AudioFeaturesTypeString[AudioFeatureSet.AUDIO48kHz2SPHINXMFCC])) {

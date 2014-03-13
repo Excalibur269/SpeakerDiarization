@@ -123,6 +123,7 @@ public class BICLClustering extends BICHClustering {
 	}
 
 	/**
+	 * called
 	 * Gets the score of candidates for merging.
 	 * 
 	 * @return the score of candidates for merging

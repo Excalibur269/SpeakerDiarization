@@ -270,6 +270,7 @@ public abstract class HClustering {
 	}
 
 	/**
+	 * called
 	 * Find the next candidates for merging.
 	 * 
 	 * @return the score of candidates for merging

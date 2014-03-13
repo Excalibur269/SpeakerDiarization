@@ -141,6 +141,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Read alize gmm.
 	 * 
 	 * @param file the file
@@ -372,6 +373,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Reader of a GMM.
 	 * 
 	 * @param outputFile the file
@@ -404,6 +406,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Reader of GMM vector.
 	 * 
 	 * @param outputFile the file
@@ -429,6 +432,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Reader of GMM vector.
 	 * 
 	 * @param outputFile the file
@@ -485,6 +489,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Writer of Gaussian vector.
 	 * 
 	 * @param outputFile the file
@@ -502,6 +507,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Writer of GMM.
 	 * 
 	 * @param outputFile the file
@@ -525,6 +531,7 @@ public class ModelIO {
 	}
 
 	/**
+	 * called
 	 * Writer of GMM vector.
 	 * 
 	 * @param outputFile the file

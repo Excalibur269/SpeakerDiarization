@@ -26,8 +26,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import libNamedSpeaker.SpeakerNameUtils;
 import libModel.Distance;
 
 // TODO: Auto-generated Javadoc
@@ -106,13 +104,13 @@ public class SpeakerNameSet implements Iterable<String>, Cloneable {
 	 * 
 	 * @return the speaker name
 	 */
-	public SpeakerName put(String name) {
-		if (containerByScore != null) {
-			isSorted = false;
-		}
-		name = SpeakerNameUtils.normalizeSpeakerName(name.replace(' ', '_').toLowerCase());
-		return container.put(name, new SpeakerName(name));
-	}
+//	public SpeakerName put(String name) {
+//		if (containerByScore != null) {
+//			isSorted = false;
+//		}
+//		name = SpeakerNameUtils.normalizeSpeakerName(name.replace(' ', '_').toLowerCase());
+//		return container.put(name, new SpeakerName(name));
+//	}
 
 	/**
 	 * Gets the speakerName or create it.
@@ -125,7 +123,7 @@ public class SpeakerNameSet implements Iterable<String>, Cloneable {
 	public SpeakerName get(String name) {
 
 		// we should normalize before putting
-		name = SpeakerNameUtils.normalizeSpeakerName(name.replace(' ', '_').toLowerCase());
+//		name = SpeakerNameUtils.normalizeSpeakerName(name.replace(' ', '_').toLowerCase());
 
 		if (container.containsKey(name)) {
 			return container.get(name);
@@ -133,7 +131,7 @@ public class SpeakerNameSet implements Iterable<String>, Cloneable {
 		if (containerByScore != null) {
 			isSorted = false;
 		}
-		put(name);
+//		put(name);
 		// put(name);
 		return container.get(name);
 	}

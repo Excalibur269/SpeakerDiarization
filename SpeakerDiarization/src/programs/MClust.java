@@ -50,7 +50,6 @@ import libClusteringMethod.BICHClustering;
 import libClusteringMethod.BICLClustering;
 import libClusteringMethod.CLRHClustering;
 import libClusteringMethod.ConnectedGraph;
-import libClusteringMethod.ExhaustiveClustering;
 import libClusteringMethod.HClustering;
 import libFeature.AudioFeatureSet;
 import libMatrix.MatrixIO;
@@ -72,6 +71,7 @@ public class MClust {
 	private final static Logger logger = Logger.getLogger(MClust.class.getName());
 
 	/**
+	 * called
 	 * save a step of the hierarchical clustering algorithm, clustering is duplicated form prevSuffix to suffix.
 	 * 
 	 * @param clustering the class of the hierarchical clustering
@@ -116,6 +116,7 @@ public class MClust {
 	}
 
 	/**
+	 * called
 	 * Bootum-up Hierarchical clustering based on GMMs, metric could be CE (Cross Entropy) or CLR (Cross Likelihood ratio).
 	 * 
 	 * @param clusterSet the cluster set
@@ -142,7 +143,6 @@ public class MClust {
 		double clustThr = parameter.getParameterClustering().getThreshold();
 		int nbMaxMerge = parameter.getParameterClustering().getMaximumOfMerge();
 		int nbMinClust = parameter.getParameterClustering().getMinimumOfCluster();
-//		System.out.println("nbMinClust: "+nbMinClust);
 		long suffix = -1000;
 		int mult = 100;
 		clustering.initialize(0, 0); // Ci = 0; Cj = 0;
@@ -156,8 +156,9 @@ public class MClust {
 		while (continuClustering(score, nbMerge, nbCluster, clusterSet, clustThr, nbMaxMerge, nbMinClust) == true) {
 			nbMerge++;
 			times++;
+			Date date = new Date();
 			if(times % process == 0 && percent < 50)
-				System.err.println("\tDoing clustering\t"+(40+percent++)+"% completed");
+				System.err.println(date+"\tDoing clustering\t"+(40+percent++)+"% completed");
 //			logger.finer("score = " + score + " ci = " + clustering.getIndexOfFirstCandidate() + "("
 //					+ clustering.getFirstCandidate().getName() + ")" + " cj = "
 //					+ clustering.getIndexOfSecondCandidate() + "(" + clustering.getSecondCandidate().getName() + ")");
@@ -318,6 +319,7 @@ public class MClust {
 	}
 
 	/**
+	 * called
 	 * BIC linear left to right clustering.
 	 * 
 	 * @param clusterSet the cluster set
@@ -405,168 +407,51 @@ public class MClust {
 //				+ ParameterClustering.ClustMethodString[parameter.getParameterClustering().getMethod().ordinal()]);
 		ClusterSet clusterSetResult = new ClusterSet();
 //		logger.info("BEGIN CLUSTERING date: " + date.toString() + " time in ms:" + date.getTime());
-		if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC)) {
-			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_ICR)) {
-			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GLR)) {
-			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GD)) {
-			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC_SR)) {
-			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_L_BIC)) {
+//		if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC)) {
+//			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_ICR)) {
+//			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GLR)) {
+//			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GD)) {
+//			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC_SR)) {
+//			clusterSetResult = MClust.gaussianHAC(clusterSet, featureSet, parameter);
+//		} else 
+		if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_L_BIC)) {
 			clusterSetResult = MClust.gaussianHACRightToLeft(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_L_BIC_SR)) {
-			clusterSetResult = MClust.gaussianHACRightToLeft(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_D_BIC)) {
-			clusterSetResult = MClust.gaussianHACDiagonal(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_R_BIC)) {
-			clusterSetResult = MClust.gaussianHACLeftToRight(clusterSet, featureSet, parameter);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_TScore)) {
+		} 
+//		else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_L_BIC_SR)) {
+//			clusterSetResult = MClust.gaussianHACRightToLeft(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_D_BIC)) {
+//			clusterSetResult = MClust.gaussianHACDiagonal(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_R_BIC)) {
+//			clusterSetResult = MClust.gaussianHACLeftToRight(clusterSet, featureSet, parameter);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_TScore)) {
+//			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
+//		} 
+		else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CLR)) {
 			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CLR)) {
+		}
+		else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CE)) {
 			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CE)) {
-			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CE_D)) {
-			clusterSetResult = MClust.cdclust(clusterSet, featureSet, parameter, ubm);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_C_D)) {
-			clusterSetResult = MClust.cdclust(clusterSet, featureSet, parameter, ubm);
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GDGMM)) {
-			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
-// } else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC_GMM_EM)) {
-// clusterSetResult = MClust.cclust(clusterSet, featureSet, parameter, ubm);
-//			logger.info("END CLUSTREING date: " + date.toString() + " time in ms:" + date.getTime());
-		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC_GMM_MAP)) {
-			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
-		} else {
+		} 
+//		else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_CE_D)) {
+//			clusterSetResult = MClust.cdclust(clusterSet, featureSet, parameter, ubm);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_C_D)) {
+//			clusterSetResult = MClust.cdclust(clusterSet, featureSet, parameter, ubm);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_GDGMM)) {
+//			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
+//		} else if (parameter.getParameterClustering().getMethod().equals(ParameterClustering.ClusteringMethod.CLUST_H_BIC_GMM_MAP)) {
+//			clusterSetResult = MClust.gmmHAC(clusterSet, featureSet, parameter, ubm);
+//		} 
+		else {
 			logger.severe("not implemented method");
 			System.exit(-1);
 		}
 		return clusterSetResult;
 	}
 
-	/**
-	 * I vector exhaustive search.
-	 * 
-	 * @param clusterSet the cluster set
-	 * @param featureSet the feature set
-	 * @param parameter the parameter
-	 * @return the cluster set
-	 * @throws DiarizationException the diarization exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws SAXException the sAX exception
-	 * @throws ParserConfigurationException the parser configuration exception
-	 * @throws ClassNotFoundException the class not found exception
-	 */
-//	public static ClusterSet iVectorExhaustiveSearch(ClusterSet clusterSet, AudioFeatureSet featureSet, Parameter parameter) throws DiarizationException, IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
-//		ClusterSet clusterSetResult = new ClusterSet();
-//		featureSet.setCurrentShow(clusterSet.getFirstCluster().firstSegment().getShowName());
-//	
-//		Date date1 = new Date();
-//		IVectorArrayList iVectorList = TrainIVectorOrTV.make(clusterSet, featureSet, parameter);
-//		EigenFactorRadialList normalization = MainTools.readEigenFactorRadialNormalization(parameter);
-//		logger.info("number of iteration in normalisation: " + normalization.size());
-//		IVectorArrayList normalizedIVectorList = EigenFactorRadialNormalizationFactory.applied(iVectorList, normalization);
-//		MatrixSymmetric covarianceInvert = MainTools.readMahanalonisCovarianceMatrix(parameter).invert();
-//
-//		Date date2 = new Date();
-//
-//		MatrixSymmetric distance = new MatrixSymmetric(iVectorList.size());
-//		distance.fill(0.0);
-//		//TreeMap<Double, String> ds = new TreeMap<Double, String>();
-//		double min = Double.MAX_VALUE;
-//		double max = Double.MIN_VALUE;
-//		for (int i = 0; i < distance.getSize(); i++) {
-//			//String ch = iVectorList.get(i).getName() + " " + i + " [ ";
-//			for (int j = i; j < distance.getSize(); j++) {
-//				double d = Distance.iVectorMahalanobis(normalizedIVectorList.get(i), normalizedIVectorList.get(j), covarianceInvert);
-//				if (d < min) min = d;
-//				if (d > max) max = d;
-//				distance.set(i, j, d);
-//				//ch += j + ": " + String.format("%8.6f", d) + ", ";
-//				//ds.put(d, i + "-" + j);
-//			}
-//		}
-//		logger.info("distance min:" + min + " max: "+max);
-//		/*String min = "";
-//		for (Double d : ds.keySet()) {
-//			min += " " + String.format("%f", d) + " (" + ds.get(d) + ") ";
-//		}
-//		logger.info("min distance: " + min);*/
-//		Date date3 = new Date();
-//
-//		double threshold = parameter.getParameterClustering().getThreshold();
-//		ConnectedGraph connectedGraph = new ConnectedGraph(distance, threshold);
-//		int[] subGraph = connectedGraph.getSubGraph();
-//		int nbSubGraph = connectedGraph.getNbSubGraph();
-//		ArrayList<ArrayList<Integer>> subGraphList = new ArrayList<ArrayList<Integer>>(nbSubGraph);
-//		for (int i = 0; i < nbSubGraph; i++) {
-//			subGraphList.add(new ArrayList<Integer>());
-//		}
-//		for (int j = 0; j < iVectorList.size(); j++) {
-//			subGraphList.get(subGraph[j]).add(j);
-//		}
-//		
-//		logger.info("nb sub graph:" + nbSubGraph);
-//		for (int i = 0; i < nbSubGraph; i++) {
-//			logger.info("---------------");
-//			
-//			ArrayList<Integer> nodes = subGraphList.get(i);
-//			//ArrayList<Integer> nodes = new ArrayList<Integer>();
-//			String nodesString = "";
-//			for (int j = 0; j < iVectorList.size(); j++) {
-//				if (subGraph[j] == i) {
-//				//	nodes.add(j);
-//					nodesString += " " + j;
-//				}
-//			}
-//			logger.info("sub graph:" + i + " nodes : " + nodesString);
-//
-//			ExhaustiveClustering exhaustiveClustering = new ExhaustiveClustering(distance, threshold, nodes);
-//			int[] partition = exhaustiveClustering.backtrack();
-//
-//			String ch = "partition :";
-///*			for (int c : partition) {
-//				ch += " " + c;
-//			}
-//			logger.info(ch);*/
-//			for (int c : nodes) {
-//				if (partition[c] == c) {
-//					ch += " " + c;
-//					String clusterName = iVectorList.get(c).getName();
-//					logger.info("add center: " + clusterName);
-//					Cluster cloneCluster = clusterSet.getCluster(clusterName).clone();
-//					clusterSetResult.addCluster(cloneCluster);
-//				} else {
-//					logger.info("c: "+c+" partition:"+partition[c]);
-//					String centerName = iVectorList.get(partition[c]).getName();
-//					String clusterName = iVectorList.get(c).getName();
-//					logger.info("center: "+centerName+" cluster:"+clusterName);
-//					Iterator<Segment> it = clusterSet.getCluster(clusterName).iterator();
-//					clusterSetResult.getCluster(centerName).addSegments(it);
-//				}
-//			}
-//			logger.info(ch);
-//			/*for (int c : nodes) {
-//				if (partition[c] != c) {
-//					String centerName = iVectorList.get(partition[c]).getName();
-//					String clusterName = iVectorList.get(c).getName();
-//					clusterSetResult.getCluster(centerName).addSegments(clusterSet.getCluster(clusterName).iterator());
-//				}
-//			}*/
-//		}
-//		Date date4 = new Date();
-//		long d = date2.getTime() - date1.getTime();
-//		logger.info("##--## ivector: "+d);
-//		 d = date3.getTime() - date2.getTime();
-//		logger.info("##--##distance: "+d);
-//		 d = date4.getTime() - date3.getTime();
-//		logger.info("##--##clustering: "+d);
-//
-//		return clusterSetResult;
-//	}
 
 	/**
 	 * The main method.
@@ -604,6 +489,7 @@ public class MClust {
 	}
 
 	/**
+	 * called
 	 * Log score.
 	 * 
 	 * @param clustering the clustering
@@ -625,6 +511,7 @@ public class MClust {
 	}
 
 	/**
+	 * called
 	 * Continu clustering.
 	 * 
 	 * @param score the score

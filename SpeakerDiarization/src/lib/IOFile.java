@@ -144,6 +144,7 @@ public class IOFile {
 	}
 
 	/**
+	 * called
 	 * Gets the filename.
 	 * 
 	 * @param mask the mask, %s is replaced by
@@ -190,6 +191,7 @@ public class IOFile {
 	}
 
 	/**
+	 * called
 	 * Open the file descriptor.
 	 * 
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -198,7 +200,6 @@ public class IOFile {
 
 		if (mode.contains("r")) {
 			try {
-// if (url == null) {
 				if (inputStream == null) {
 					dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
 				} else {

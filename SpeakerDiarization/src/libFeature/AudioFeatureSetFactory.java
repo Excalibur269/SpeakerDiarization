@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import lib.DiarizationException;
+import lib.SpkDiarizationLogger;
 import edu.cmu.sphinx.frontend.Data;
 import edu.cmu.sphinx.frontend.DataEndSignal;
 import edu.cmu.sphinx.frontend.DoubleData;
@@ -46,8 +49,6 @@ import edu.cmu.sphinx.frontend.transform.DiscreteCosineTransform;
 import edu.cmu.sphinx.frontend.util.StreamDataSource;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertySheet;
-import lib.DiarizationException;
-import lib.SpkDiarizationLogger;
 
 /**
  * A factory for creating Feature objects.
@@ -188,11 +189,10 @@ public class AudioFeatureSetFactory {
 	 * @return the array list<float[]>
 	 */
 	public synchronized static AudioFeatureList MakeFeature(URL configurationURL, String frontEndName, String inputAudioFilename, AudioFeatureDescription featureDescription) {
-		// System.err.print("-----------");
-		// System.err.print(configurationURL.toString());
-		// System.err.print("-----------");
+//		 System.err.print("-----------");
+//		 System.err.print(configurationURL.toString());
+//		 System.err.print("-----------");
 		ConfigurationManager configurationManager = new ConfigurationManager(configurationURL);
-
 		FrontEnd frontEnd = (FrontEnd) configurationManager.lookup(frontEndName);
 		StreamDataSource audioSource = (StreamDataSource) configurationManager.lookup(DATA_SOURCE);
 		PropertySheet psDataSource = configurationManager.getPropertySheet(DATA_SOURCE);
@@ -206,34 +206,41 @@ public class AudioFeatureSetFactory {
 		try {
 			audioSource.setInputStream(getAudio(inputAudioFilename, psDataSource.getInt(StreamDataSource.PROP_SAMPLE_RATE)), "audio");
 		} catch (FileNotFoundException e) {
+			System.out.println(AudioFeatureSetFactory.class+"\tFileNotFoundException");
 			logger.log(Level.SEVERE, "FileNotFoundException", e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.out.println(AudioFeatureSetFactory.class+"\tIOException");
 			logger.log(Level.SEVERE, "IOException", e);
 			e.printStackTrace();
 		} catch (DiarizationException e) {
+			System.out.println(AudioFeatureSetFactory.class+"\tDiarizationException");
 			logger.log(Level.SEVERE, "DiarizationException", e);
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
+			System.out.println(AudioFeatureSetFactory.class+"\tUnsupportedAudioFileException");
 			logger.log(Level.SEVERE, "UnsupportedAudioFileException", e);
 			e.printStackTrace();
 		}
 		AudioFeatureList allFeatures = new AudioFeatureList();
 		int featureLength = -1;
 		Data feature = getData(frontEnd);
+		float[] featureData = null;
 		while (!(feature instanceof DataEndSignal)) {
 			if (feature instanceof DoubleData) {
 				double[] featureDataTmp = ((DoubleData) feature).getValues();
-				float[] featureData = new float[featureDataTmp.length];
+				featureData = new float[featureDataTmp.length];
 				for (int i = 0; i < featureData.length; i++) {
 					featureData[i] = (float) featureDataTmp[i];
 				}
+//				addDither(featureData);
 				allFeatures.add(featureData);
 			} else if (feature instanceof FloatData) {
-				float[] featureData = ((FloatData) feature).getValues();
+				featureData = ((FloatData) feature).getValues();
 				if (featureLength < 0) {
 					featureLength = featureData.length;
 				}
+//				addDither(featureData);
 				allFeatures.add(featureData);
 			}
 			feature = getData(frontEnd);
@@ -244,6 +251,7 @@ public class AudioFeatureSetFactory {
 	}
 
 	/**
+	 * called
 	 * Make MFCC feature.
 	 * 
 	 * @param configurationURL the configuration URL

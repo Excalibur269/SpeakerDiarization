@@ -322,6 +322,7 @@ public class ParameterSegmentation extends ParameterBase implements Cloneable {
 	}
 
 	/**
+	 * called
 	 * Checks if is recursion.
 	 * 
 	 * @return true, if is recursion

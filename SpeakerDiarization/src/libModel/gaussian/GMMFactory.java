@@ -117,6 +117,7 @@ public class GMMFactory {
     }
 
     /**
+     * called
      * Training: get a model learned by EM-ML.
      *
      * @param cluster the cluster
@@ -184,7 +185,6 @@ public class GMMFactory {
             gaussian = new DiagGaussian(initializationGmm.getDimension());
         }
         GMMFactory.initializeGaussian(featureSet, gaussian, cluster);
-
         double oldScore = -5000.0;
         GMM gmmCurrent = (initializationGmm.clone());
         GMM gmmResult = new GMM();
@@ -237,6 +237,7 @@ public class GMMFactory {
     }
 
     /**
+     * called
      * Initialization: user initialization method.
      *
      * @param name the name
@@ -293,6 +294,7 @@ public class GMMFactory {
     }
 
     /**
+     * called
      * Initialize a Gaussian from #start to #start + #len.
      *
      * @param featureSet a feature container
@@ -313,6 +315,7 @@ public class GMMFactory {
     }
 
     /**
+     * called
      * Compute global Gaussian.
      *
      * @param featureSet the features

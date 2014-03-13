@@ -99,6 +99,7 @@ public class SAdjSeg {
 //		logger.info("Adjust the bounady of segmentation");
 		ArrayList<Segment> segmentList = clusterset.getSegmentVectorRepresentation();
 		int indexOfEnergy = parameter.getParameterInputFeature().getFeaturesDescription().getIndexOfEnergy();
+		System.out.println(indexOfEnergy);
 		// adjust segment boundaries
 		if (indexOfEnergy < 0) {
 			throw new DiarizationException("SAdjSeg: main() error: energy not present");

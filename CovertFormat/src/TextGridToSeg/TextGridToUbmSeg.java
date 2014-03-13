@@ -36,7 +36,7 @@ public class TextGridToUbmSeg
 		List<File> fileList = new ArrayList<File>();
 		ConvertTool.getFileList(new File(pathString),".TextGrid",fileList);
 
-		FileWriter fileWriter = new FileWriter(new File("all.seg"));
+		FileWriter fileWriter = new FileWriter(new File("all_200h.seg"));
 		fileWriter.write("");
 		fileWriter.flush();
 		fileWriter.close();
@@ -46,6 +46,7 @@ public class TextGridToUbmSeg
 			// 打印文件名
 			// 文件内容
 			try	{
+				System.out.println(file.getAbsolutePath());
 				ConvertTool.convertSeg(file,false);
 			}catch (IOException e){
 				// TODO Auto-generated catch block

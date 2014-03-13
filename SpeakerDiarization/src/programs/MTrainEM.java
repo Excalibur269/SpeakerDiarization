@@ -47,6 +47,7 @@ public class MTrainEM {
 	private final static Logger logger = Logger.getLogger(MTrainEM.class.getName());
 
 	/**
+	 * called
 	 * Compute.
 	 * 
 	 * @param featureSet the feature set

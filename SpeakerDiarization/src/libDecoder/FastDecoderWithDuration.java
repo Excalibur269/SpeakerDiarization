@@ -269,6 +269,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Initialize.
 	 * 
 	 * @param nbStates the nb states
@@ -294,6 +295,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Forward pass for a segment
 	 * 
 	 * Probabilities computed at each frame.
@@ -336,7 +338,7 @@ public class FastDecoderWithDuration {
 		segmentList.add(segment);
 		// Treating all the features (including the first one)
 		for (; featureIndex < segmentLast; featureIndex += shift, indexPath++) {
-			// logger.info("decoder index :"+featureIndex+ " shift:"+shift+ " indexpath:"+indexPath);
+//			logger.info("decoder index :"+featureIndex+ " shift:"+shift+ " indexpath:"+indexPath);
 			Arrays.fill(currentScores, Double.NEGATIVE_INFINITY);
 			int viterbiColumn[] = new int[nbStates];
 			computeScoreForAllModels(featureSet, featureIndex);
@@ -395,21 +397,18 @@ public class FastDecoderWithDuration {
 					indexStateMax = endIndice;
 				}
 			}
-
-			int previous = currentFeatures[indexStateMax];
+			int previous = -1;
+			if(indexStateMax >= 0){
+				previous = currentFeatures[indexStateMax];
+			}
 			if (previous >= 0) {
 				if (previous == indexPath) {
-					// à vérifier
-// logger.info("cas 1");
 					startFeatureIndex = featureIndex;
 					previous = previous - 1;
-// previous = previous - oldShift;
 				} else {
-// logger.info("cas 2");
 					startFeatureIndex = path.get(previous).lastFeatureIndex;
 				}
 			} else {
-// logger.info("cas 3");
 				startFeatureIndex = segment.getStart();
 			}
 			PotentialSegment info = new PotentialSegment(segment.getShowName(), startFeatureIndex, featureIndex, previous, indexModelMax);
@@ -427,11 +426,16 @@ public class FastDecoderWithDuration {
 			currentFeatures = previousFeatures;
 			previousFeatures = featureTmp;
 		}
+//		System.err.println(segment.getStartInSecond()+"\t"+segment.getEndInSecond());
+//		for(int i = 0;i < 2;i++){
+//			System.err.println("\tcurrentScores["+i+"]: "+currentScores[i]);
+//		}
 		makePath(segment);
 		path = null;
 	}
 
 	/**
+	 * called
 	 * Forward pass for a segment
 	 * 
 	 * Probabilities computed at each frame.
@@ -469,7 +473,7 @@ public class FastDecoderWithDuration {
 		indexPath = 0;
 		for (int i = 0; i < nbStates; i++) {
 			previousFeatures[i] = -1;
-// logger.info("start prev score "+i+": "+previousScores[i]);
+ 			logger.info("start prev score "+i+": "+previousScores[i]);
 		}
 		path = new ArrayList<PotentialSegment>(segmentLength);
 		segmentList.add(segment);
@@ -477,7 +481,7 @@ public class FastDecoderWithDuration {
 		// Treating all the features (including the first one)
 		for (; featureIndex < segmentLast; featureIndex += shift, indexPath++) {
 			shift = list.remove(0);
-// logger.info("decoder index :"+featureIndex+ " shift:"+shift+ " indexpath:"+indexPath);
+			logger.info("decoder index :"+featureIndex+ " shift:"+shift+ " indexpath:"+indexPath);
 			Arrays.fill(currentScores, Double.NEGATIVE_INFINITY);
 			int viterbiColumn[] = new int[nbStates];
 			computeScoreForAllModels(featureSet, featureIndex);
@@ -530,7 +534,7 @@ public class FastDecoderWithDuration {
 
 			for (int endModel = 0; endModel < modelEndStateIndiceList.size(); endModel++) {
 				int endIndice = modelEndStateIndiceList.get(endModel);
-// logger.info("cur score "+endIndice+": "+currentScores[endIndice]);
+				logger.info("cur score "+endIndice+": "+currentScores[endIndice]);
 				if (currentScores[endIndice] > scoreMax) {
 					scoreMax = currentScores[endIndice];
 					indexModelMax = endModel;
@@ -541,17 +545,12 @@ public class FastDecoderWithDuration {
 			int previous = currentFeatures[indexStateMax];
 			if (previous >= 0) {
 				if (previous == indexPath) {
-					// à vérifier
-// logger.info("cas 1");
 					startFeatureIndex = (featureIndex - oldShift) + 1;
 					previous = previous - 1;
-					// previous = previous - oldShift;
 				} else {
-// logger.info("cas 2");
 					startFeatureIndex = path.get(previous).lastFeatureIndex;
 				}
 			} else {
-// logger.info("cas 3");
 				startFeatureIndex = segment.getStart();
 			}
 			PotentialSegment info = new PotentialSegment(segment.getShowName(), startFeatureIndex, featureIndex, previous, indexModelMax);
@@ -589,6 +588,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Define a HMM. Add a model to the heap with constraint on duration
 	 * 
 	 * @param newModel the new model
@@ -618,6 +618,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Adds the model with fixed duration.
 	 * 
 	 * @param newModel the new model
@@ -630,6 +631,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Adds the model with minimal duration.
 	 * 
 	 * @param newModel the new model
@@ -642,6 +644,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Adds the model with periodic duration.
 	 * 
 	 * @param newModel the new model
@@ -909,6 +912,7 @@ public class FastDecoderWithDuration {
 	}
 
 	/**
+	 * called
 	 * Setup hmm.
 	 * 
 	 * @param modelList the model list

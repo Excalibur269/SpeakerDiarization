@@ -47,7 +47,16 @@ public class Parameter implements Cloneable {
 
 	/** The help. */
 	public Boolean help;
-
+	
+	/** The ubmModel. */
+	public String ubmModel;
+	/** The snsModel. */
+	public String snsModel;
+	public String addSilence = "0.0";
+	public String sampleRate = "8";
+//	public String addSilence = "8.0";
+//	public String sampRate = "6";
+	public String outlogFile;
 	/**
 	 * The Class ActionHelp.
 	 */
@@ -100,6 +109,125 @@ public class Parameter implements Cloneable {
 		}
 	}
 
+
+	/**
+	 * The Class ActionLoggerLevel.
+	 */
+	private class ActionSNS extends LongOptAction {
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#execute(java.lang.String)
+		 */
+		@Override
+		public void execute(String optarg) {
+			snsModel = optarg;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#getValue()
+		 */
+		@Override
+		public String getValue() {
+			return snsModel;
+		}
+	}	
+	/**
+	 * The Class ActionLoggerLevel.
+	 */
+	private class ActionLogFile extends LongOptAction {
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#execute(java.lang.String)
+		 */
+		@Override
+		public void execute(String optarg) {
+			outlogFile = optarg;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#getValue()
+		 */
+		@Override
+		public String getValue() {
+			return outlogFile;
+		}
+	}	
+	/**
+	 * The Class ActionLoggerLevel.
+	 */
+	private class ActionSilence extends LongOptAction {
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#execute(java.lang.String)
+		 */
+		@Override
+		public void execute(String optarg) {
+			addSilence = optarg;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#getValue()
+		 */
+		@Override
+		public String getValue() {
+			return addSilence;
+		}
+	}	
+	/**
+	 * The Class ActionLoggerLevel.
+	*/
+	private class ActionSampleRate extends LongOptAction {
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#execute(java.lang.String)
+		 */
+		@Override
+		public void execute(String optarg) {
+			sampleRate = optarg;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#getValue()
+		 */
+		@Override
+		public String getValue() {
+			return sampleRate;
+		}
+	}
+
+
+	/**
+	 * The Class ActionLoggerLevel.
+	 */
+	private class ActionUBM extends LongOptAction {
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#execute(java.lang.String)
+		 */
+		@Override
+		public void execute(String optarg) {
+			ubmModel = optarg;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see fr.lium.spkDiarization.parameter.LongOptAction#getValue()
+		 */
+		@Override
+		public String getValue() {
+			return ubmModel;
+		}
+	}
+
 	// Video Parameters
 	/** The parameter video input feature. */
 //	private ParameterVideoInputFeature parameterVideoInputFeature;
@@ -121,9 +249,6 @@ public class Parameter implements Cloneable {
 
 	/** The parameter em. */
 	private ParameterEM parameterEM;
-
-	/** The parameter ehmm. */
-	private ParameterEHMM parameterEHMM;
 
 	/** The parameter map. */
 	private ParameterMAP parameterMAP;
@@ -225,7 +350,6 @@ public class Parameter implements Cloneable {
 		parameterSegmentationOutputFile = new ParameterSegmentationOutputFile(this);
 		parameterSegmentationFilterFile = new ParameterSegmentationFilterFile(this);
 		parameterEM = new ParameterEM(this);
-		parameterEHMM = new ParameterEHMM(this);
 		parameterVarianceControl = new ParameterVarianceControl(this);
 		parameterMAP = new ParameterMAP(this);
 		parameterClustering = new ParameterClustering(this);
@@ -271,6 +395,11 @@ public class Parameter implements Cloneable {
 
 		addOptions(new LongOptWithAction("logger", new ActionLoggerLevel(), "logger level"));
 		addOptions(new LongOptWithAction("help", 0, new ActionHelp(), "help wanted"));
+		addOptions(new LongOptWithAction("SampleRate", new ActionSampleRate(), "set SampleRate"));
+		addOptions(new LongOptWithAction("SNSModel", new ActionSNS(), "set SNSModel"));
+		addOptions(new LongOptWithAction("UbmModel", new ActionUBM(), "set UbmModel"));
+		addOptions(new LongOptWithAction("AddSilence", new ActionSilence(), "set SilenceLen"));
+		addOptions(new LongOptWithAction("OutLogFile", new ActionLogFile(), "output logger in a file"));
 
 		show = "SpkDiarization";
 		help = false;
@@ -300,7 +429,6 @@ public class Parameter implements Cloneable {
 		parameter.parameterSegmentation = parameterSegmentation.clone();
 		parameter.parameterClustering = parameterClustering.clone();
 		parameter.parameterEM = parameterEM.clone();
-		parameter.parameterEHMM = parameterEHMM.clone();
 		parameter.parameterMAP = parameterMAP.clone();
 
 		parameter.parameterVarianceControl = parameterVarianceControl.clone();
@@ -341,6 +469,7 @@ public class Parameter implements Cloneable {
 	}
 
 	/**
+	 * called
 	 * Log cmd line.
 	 * 
 	 * @param args the args
@@ -508,15 +637,6 @@ public class Parameter implements Cloneable {
 	 */
 	public ParameterEM getParameterEM() {
 		return parameterEM;
-	}
-
-	/**
-	 * Gets the parameter ehmm.
-	 * 
-	 * @return the parameter ehmm
-	 */
-	public ParameterEHMM getParameterEHMM() {
-		return parameterEHMM;
 	}
 
 	/**

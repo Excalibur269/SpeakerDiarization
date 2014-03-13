@@ -200,7 +200,7 @@ public class SegToRTTM {
 //				e.printStackTrace();
 //			}
 //		}
-		File rttmFile = new File("E:/RTTM/Hypothesis.rttm");
+		File rttmFile = new File("E:/RTTM/Hypothesis_11.rttm");
 		FileWriter fileWriter = new FileWriter(rttmFile);
 		fileWriter.write(source);
 		fileWriter.flush();

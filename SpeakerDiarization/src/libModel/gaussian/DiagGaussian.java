@@ -391,27 +391,11 @@ public class DiagGaussian extends Gaussian implements Cloneable {
 	public double score_getAndAccumulate(AudioFeatureSet featureSet, int featureIndex, boolean likelihoddOk) throws DiarizationException {
 		double tmp = 0.0;
 		likelihoddOk = true;
-            //float[] feature = featureSet.getFeatureUnsafe(featureIndex);
-            //if (SpkDiarizationLogger.DEBUG) logger.finest("feature size: " + featureSet.getFeatureUnsafe(featureIndex).length);
-            //if (SpkDiarizationLogger.DEBUG) logger.finest("model size: " + dimension);
-                for (int j = 0; j < dimension; j++) {
-			// System.err.print(" " + frame[j]+"/"+mean.get(j));
+        for (int j = 0; j < dimension; j++) {
 			double dmean = (featureSet.getFeatureUnsafe(featureIndex)[j] - mean.unsafe_get(j));
 			tmp -= (0.5 * dmean * dmean * invertCovariance.unsafe_get(j));
 		}
 		return score.setScore(weight * likelihoodConstant * Math.exp(tmp));
-                //score.score = weight * likelihoodConstant * Math.exp(tmp);
-		/*if (Double.isInfinite(score.score) || Double.isNaN(score.score) || (score.score == 0)) {
-			score.score = Double.MIN_VALUE;
-			likelihoddOk = false;
-			logger.finest("GaussDiag : getAndAccumulateLikelihood lh=" + score.score + " featureIndex=" + featureIndex
-					+ " show" + featureSet.getCurrentShowName() + "score=" + Math.log(score.score));
-		}*/
-		/*score.logScore = Math.log(score.score);
-		score.sumLogScore += score.logScore;
-		score.count++;
-		//if (SpkDiarizationLogger.DEBUG) logger.finest(" : " + score.logScore);
-		return score.score;*/
 	}
 
 	/*

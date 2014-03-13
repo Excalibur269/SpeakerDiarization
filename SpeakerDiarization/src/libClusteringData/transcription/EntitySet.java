@@ -80,9 +80,9 @@ public class EntitySet extends TreeSet<Entity> {
 	 * Debug.
 	 */
 	public void debug() {
-		for (Entity entity : this) {
-			entity.debug();
-		}
+//		for (Entity entity : this) {
+//			entity.debug();
+//		}
 	}
 
 }

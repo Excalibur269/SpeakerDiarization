@@ -24,7 +24,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import libSCTree.SCTProbabilities;
+//import libSCTree.SCTProbabilities;
 import lib.DiarizationException;
 
 /**
@@ -48,7 +48,7 @@ public class Entity implements Comparable<Entity>, Iterable<Path>, Cloneable {
 	protected LinkSet linkSet;
 
 	/** The scores. */
-	protected TreeMap<String, SCTProbabilities> scores;
+//	protected TreeMap<String, SCTProbabilities> scores;
 
 	/**
 	 * Instantiates a new entity.
@@ -63,7 +63,7 @@ public class Entity implements Comparable<Entity>, Iterable<Path>, Cloneable {
 		this.linkSet = linkSet;
 		this.id = id;
 		listOfLink = new ArrayList<Path>();
-		scores = new TreeMap<String, SCTProbabilities>();
+//		scores = new TreeMap<String, SCTProbabilities>();
 	}
 
 	/*
@@ -166,24 +166,24 @@ public class Entity implements Comparable<Entity>, Iterable<Path>, Cloneable {
 	/**
 	 * Debug.
 	 */
-	public void debug() {
-		logger.finer("<entity type=\"" + type + "\" >");
-		for (Path path : this) {
-			logger.finer("\t<path graph=\"" + path.getIdOfLinkSet() + "\" link=\"" + path.getIdLink() + "\" />");
-		}
-
-		for (String name : scores.keySet()) {
-			String ch = "\t<scores name=\"" + name + "\" ";
-			SCTProbabilities score = scores.get(name);
-			for (String key : score.keySet()) {
-				ch += "key=" + key + " value=" + score.get(key) + " ";
-			}
-			ch += " />";
-			logger.finer(ch);
-		}
-
-		logger.finer("</entity>");
-	}
+//	public void debug() {
+//		logger.finer("<entity type=\"" + type + "\" >");
+//		for (Path path : this) {
+//			logger.finer("\t<path graph=\"" + path.getIdOfLinkSet() + "\" link=\"" + path.getIdLink() + "\" />");
+//		}
+//
+//		for (String name : scores.keySet()) {
+//			String ch = "\t<scores name=\"" + name + "\" ";
+//			SCTProbabilities score = scores.get(name);
+//			for (String key : score.keySet()) {
+//				ch += "key=" + key + " value=" + score.get(key) + " ";
+//			}
+//			ch += " />";
+//			logger.finer(ch);
+//		}
+//
+//		logger.finer("</entity>");
+//	}
 
 	/**
 	 * Adds the path.
@@ -227,25 +227,25 @@ public class Entity implements Comparable<Entity>, Iterable<Path>, Cloneable {
 	 * 
 	 * @return the scores
 	 */
-	public TreeMap<String, SCTProbabilities> getScores() {
-		return scores;
-	}
-
-	/**
-	 * Gets the score.
-	 * 
-	 * @param name the name
-	 * @return the probabilites
-	 */
-	public SCTProbabilities getScore(String name) {
-		if (scores.containsKey(name) == true) {
-// logger.info("return");
-			return scores.get(name);
-		} else {
-// logger.info("create");
-			scores.put(name, new SCTProbabilities());
-			return scores.get(name);
-		}
-	}
+//	public TreeMap<String, SCTProbabilities> getScores() {
+//		return scores;
+//	}
+//
+//	/**
+//	 * Gets the score.
+//	 * 
+//	 * @param name the name
+//	 * @return the probabilites
+//	 */
+//	public SCTProbabilities getScore(String name) {
+//		if (scores.containsKey(name) == true) {
+//// logger.info("return");
+//			return scores.get(name);
+//		} else {
+//// logger.info("create");
+//			scores.put(name, new SCTProbabilities());
+//			return scores.get(name);
+//		}
+//	}
 
 }

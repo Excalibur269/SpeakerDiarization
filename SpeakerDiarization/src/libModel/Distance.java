@@ -56,93 +56,6 @@ public class Distance {
 	private final static Logger logger = Logger.getLogger(Distance.class.getName());
 
 	/**
-	 * Compute the Cosine distance between 2 i-vector (standard cosine or WCCN).
-	 * 
-	 * @param vector1 the vector1
-	 * @param vector2 the vector2
-	 * @return the cosine distance
-	 */
-//	public static double iVectorCosine(IVector vector1, IVector vector2) {
-//		double somme = 0;
-//		double norm1 = 0;
-//		double norm2 = 0;
-//
-//		for (int i = 0; i < vector1.getDimension(); i++) {
-//			somme += vector1.get(i) * vector2.get(i);
-//			norm1 += vector1.get(i) * vector1.get(i);
-//			norm2 += vector2.get(i) * vector2.get(i);
-//		}
-//
-//		somme = somme / (Math.sqrt(norm1) * Math.sqrt(norm2));
-//
-//		return somme;
-//	}
-
-	/**
-	 * Compute the euclidean distance between 2 i-vectors.
-	 * 
-	 * @param vector1 the vector1
-	 * @param vector2 the vector2
-	 * @return the euclidean distance
-	 */
-//	public static double iVectorEuclidean(IVector vector1, IVector vector2) {
-//		// debug OK
-//		double somme = 0.0;
-//		for (int i = 0; i < vector1.getDimension(); i++) {
-//			double diff = vector1.get(i) - vector2.get(i);
-//			somme += diff * diff;
-//		}
-//		return Math.sqrt(somme);
-//
-//	}
-
-	/**
-	 * Compute the Mahalanobis distance between 2 i-vetors (euclidean distance normalized by a covariance matrix).
-	 * 
-	 * @param vector1 the vector1
-	 * @param vector2 the vector2
-	 * @param w the w
-	 * @return the Mahalanobis distance
-	 * @throws DiarizationException the diarization exception
-	 */
-//	public static double iVectorMahalanobis(IVector vector1, IVector vector2, MatrixSymmetric w) throws DiarizationException {
-//		// debug OK
-//
-//		if (vector1 == vector2) {
-//			return 0.0;
-//		}
-//
-//		double score = 0.0;
-//		int dimension = vector1.getDimension();
-//		MatrixRowVector tmpVectorDiff = new MatrixRowVector(dimension);
-//		MatrixRowVector tmpVectorSumProd = new MatrixRowVector(dimension);
-//
-//		// String ch = "";
-//		for (int i = 0; i < dimension; i++) {
-//			tmpVectorDiff.set(i, vector1.get(i) - vector2.get(i));
-//			// ch += tmpVectorDiff.get(i)+" ";
-//		}
-//		// logger.info("diff: "+ch);
-//
-//		for (int i = 0; i < dimension; i++) {
-//			tmpVectorSumProd.set(i, 0.0);
-//			for (int j = 0; j < dimension; j++) {
-//				tmpVectorSumProd.add(i, tmpVectorDiff.unsafe_get(j) * w.unsafe_get(j, i));
-//			}
-//			score += (tmpVectorDiff.unsafe_get(i) * tmpVectorSumProd.unsafe_get(i));
-//		}
-//
-//		if (Double.isInfinite(score) || Double.isNaN(score) || (score <= 0)) {
-//			logger.warning("iVectorMahalanobis : score too small: d(" + vector1.getName() + ", "
-//					+ vector2.getName() + ")=" + score+ " --> set to 0.0");
-//			score = 0.0;
-//		}
-//		// logger.info("score:"+score);
-//		// return Math.sqrt(score);
-//		return score;
-//	}
-
-	/**
 	 * Gets the threshold.
 	 * 
 	 * @param cluster the cluster
@@ -324,6 +237,7 @@ public class Distance {
 	}
 
 	/**
+	 * called
 	 * Get a BIC score for Gaussians given a constant and the length.
 	 * 
 	 * @param gaussianI the gaussian i
@@ -387,6 +301,7 @@ public class Distance {
 	}
 
 	/**
+	 * called
 	 * Get a BIC constant.
 	 * 
 	 * @param gaussianKind the kind of model
@@ -447,6 +362,7 @@ public class Distance {
 	}
 
 	/**
+	 * called
 	 * BIC local.
 	 * 
 	 * @param gaussianI the gaussian i

@@ -100,6 +100,7 @@ public abstract class Gaussian extends Model implements Comparable<Gaussian>, Cl
 	public abstract void statistic_add(Gaussian gaussian, double weight) throws DiarizationException;
 
 	/**
+	 * called
 	 * Accumulator: add feature of index \e i.
 	 * 
 	 * @param featureSet the features
@@ -340,6 +341,7 @@ public abstract class Gaussian extends Model implements Comparable<Gaussian>, Cl
 	public abstract void merge(Gaussian gaussian1, Gaussian gaussian2) throws DiarizationException;
 
 	/**
+	 * called
 	 * Accumulator: subtract from the accumulator the \e i feature.
 	 * 
 	 * @param featureSet the features

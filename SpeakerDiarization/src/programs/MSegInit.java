@@ -83,6 +83,7 @@ public class MSegInit {
 	}
 
 	/**
+	 * called
 	 * Detect equal features.
 	 * 
 	 * @param featureSet the feature set
@@ -186,6 +187,7 @@ public class MSegInit {
 	}
 
 	/**
+	 * called
 	 * Make.
 	 * 
 	 * @param featureSet the feature set

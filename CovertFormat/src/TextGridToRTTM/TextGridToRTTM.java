@@ -153,7 +153,7 @@ public class TextGridToRTTM {
 	public File convertSeg(File file) throws IOException {
 		String path = file.getAbsolutePath();
 		InputStream input = new FileInputStream(path);
-		InputStreamReader reader = new InputStreamReader(input, "UTF-8");
+		InputStreamReader reader = new InputStreamReader(input, "UTF-16BE");
 		BufferedReader br = new BufferedReader(reader);
 		String filename = file.getName();
 		filename = filename.substring(0,filename.lastIndexOf("."));
@@ -202,13 +202,13 @@ public class TextGridToRTTM {
 		// TODO Auto-generated method stub
 		// Test get and read all file
 		TextGridToRTTM textGridToRTTM = new TextGridToRTTM();
-//		List<String> fileList1 = textGridToRTTM.getFileList(new File("E:/KeFu/huchu_1h"));
-		List<String> fileList1 = textGridToRTTM.getFileList(new File("E:/KeFu/new_data"));
-		List<String> fileList2 = textGridToRTTM.getFileList(new File("E:/KeFu/huifang_1h"));
-		List<String> fileList3 = textGridToRTTM.getFileList(new File("E:/KeFu/service_1.3"));
-		List<String> fileList4 = textGridToRTTM.getFileList(new File("E:/KeFu/lenovo"));
-		List<String> fileList5 = textGridToRTTM.getFileList(new File("E:/KeFu/PICC4h"));
-		List<String> fileList6 = textGridToRTTM.getFileList(new File("E:/KeFu/taikang"));
+		List<String> fileList1 = textGridToRTTM.getFileList(new File("E:/KeFu/heli_wav_24"));
+//		List<String> fileList1 = textGridToRTTM.getFileList(new File("E:/KeFu/jiangsudianxin"));
+//		List<String> fileList2 = textGridToRTTM.getFileList(new File("E:/KeFu/huifang_1h"));
+//		List<String> fileList3 = textGridToRTTM.getFileList(new File("E:/KeFu/service_1.3"));
+//		List<String> fileList4 = textGridToRTTM.getFileList(new File("E:/KeFu/lenovo"));
+//		List<String> fileList5 = textGridToRTTM.getFileList(new File("E:/KeFu/PICC4h"));
+//		List<String> fileList6 = textGridToRTTM.getFileList(new File("E:/KeFu/taikang"));
 		File file = null;
 		String[] content = null;
 		String source = "";
@@ -285,7 +285,7 @@ public class TextGridToRTTM {
 //
 //		}
 	
-		File rttmFile = new File("E:/RTTM/Reference_old.rttm");
+		File rttmFile = new File("E:/RTTM/Reference_24.rttm");
 		FileWriter fileWriter = new FileWriter(rttmFile);
 		fileWriter.write(source);
 		fileWriter.flush();

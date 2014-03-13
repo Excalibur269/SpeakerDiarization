@@ -93,6 +93,7 @@ public class MainTools {
 	}
 
 	/**
+	 * called
 	 * Read the cluster set.
 	 * 
 	 * @param parameter the parameter
@@ -186,6 +187,7 @@ public class MainTools {
 	}
 
 	/**
+	 * called
 	 * Read the first featureSet.
 	 * 
 	 * @param parameter the parameter
@@ -204,130 +206,7 @@ public class MainTools {
 	}
 
 	/**
-	 * Read i-vector array list.
-	 * 
-	 * @param parameter the parameter
-	 * @return the i vector array list
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws DiarizationException the diarization exception
-	 */
-//	public static IVectorArrayList readIVectorArrayList(Parameter parameter) throws IOException, DiarizationException {
-//		String inputFilename = IOFile.getFilename(parameter.getParameterModelSetInputFile().getMask(), parameter.show);
-//		logger.info("I-Vector read: " + inputFilename);
-//		return IVectorArrayList.loadIVector(inputFilename);
-//	}
-
-	/**
-	 * Write i-vector array list.
-	 * 
-	 * @param iVectorArrayList the i vector array list
-	 * @param parameter the parameter
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws DiarizationException the diarization exception
-	 */
-//	public static void writeIVectorArrayList(IVectorArrayList iVectorArrayList, Parameter parameter) throws IOException, DiarizationException {
-//		String outputFilename = IOFile.getFilename(parameter.getParameterModelSetOutputFile().getMask(), parameter.show);
-//		logger.info("I-Vector write: " + outputFilename);
-//		IVectorArrayList.writeIVector(outputFilename, iVectorArrayList);
-//	}
-
-	/**
-	 * Read i-vector array list2.
-	 * 
-	 * @param parameter the parameter
-	 * @return the i vector array list
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws DiarizationException the diarization exception
-	 */
-//	public static IVectorArrayList readIVectorArrayList2(Parameter parameter) throws IOException, DiarizationException {
-//		String inputFilename = IOFile.getFilename(parameter.getParameterModelSetInputFile2().getMask(), parameter.show);
-//		logger.info("I-Vector 2 read: " + inputFilename);
-//		return IVectorArrayList.loadIVector(inputFilename);
-//	}
-
-	/**
-	 * Read eigen factor radial normalization.
-	 * 
-	 * @param parameter the parameter
-	 * @return the eigen factor radial list
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ClassNotFoundException the class not found exception
-	 */
-//	public static EigenFactorRadialList readEigenFactorRadialNormalization(Parameter parameter) throws IOException, ClassNotFoundException {
-//		String inputFilename = IOFile.getFilename(parameter.getParameterNormlization().getEigenFactorRadialMask(), parameter.show);
-//		EigenFactorRadialList interSessionCompensation = EigenFactorRadialList.readXML(inputFilename);
-//		logger.info("EigenFactorRadial read: " + inputFilename + " number of iteration: "
-//				+ interSessionCompensation.size());
-//		return interSessionCompensation;
-//	}
-
-	/**
-	 * Write eigen factor radial normalization.
-	 * 
-	 * @param interSessionCompensation the inter session compensation
-	 * @param parameter the parameter
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-//	public static void writeEigenFactorRadialNormalization(EigenFactorRadialList interSessionCompensation, Parameter parameter) throws IOException {
-//		String outputFilename = IOFile.getFilename(parameter.getParameterNormlization().getEigenFactorRadialMask(), parameter.show);
-//		logger.info("EigenFactorRadial write: " + outputFilename + " number of iteration: "
-//				+ interSessionCompensation.size());
-//		EigenFactorRadialList.writeXML(interSessionCompensation, outputFilename);
-//	}
-
-	/**
-	 * Read wccn matrix.
-	 * 
-	 * @param parameter the parameter
-	 * @return the matrix symmetric
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-//	public static MatrixSymmetric readWCCNMatrix(Parameter parameter) throws IOException {
-//		String inputFilename = IOFile.getFilename(parameter.getParameterNormlization().getWCCNMask(), parameter.show);
-//		logger.info("WCCN Matrix read: " + inputFilename);
-//		return MatrixIO.readMatrixSymmetric(inputFilename, false);
-//	}
-
-	/**
-	 * Write wccn matrix.
-	 * 
-	 * @param covariance the covariance
-	 * @param parameter the parameter
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-//	public static void writeWCCNMatrix(MatrixSymmetric covariance, Parameter parameter) throws IOException {
-//		String outputFilename = IOFile.getFilename(parameter.getParameterNormlization().getWCCNMask(), parameter.show);
-//		logger.info("WCCN Matrix write: " + outputFilename);
-//		MatrixIO.writeMatrix(covariance, outputFilename, false);
-//	}
-
-	/**
-	 * Read mahanalonis covariance matrix.
-	 * 
-	 * @param parameter the parameter
-	 * @return the matrix symmetric
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-//	public static MatrixSymmetric readMahanalonisCovarianceMatrix(Parameter parameter) throws IOException {
-//		String inputFilename = IOFile.getFilename(parameter.getParameterNormlization().getMahanalobisCovarianceMask(), parameter.show);
-//		logger.info("Mahanalobis Covariance read: " + inputFilename);
-//		return MatrixIO.readMatrixSymmetric(inputFilename, false);
-//	}
-
-	/**
-	 * Write w mahanalonis covariance matrix.
-	 * 
-	 * @param covariance the covariance
-	 * @param parameter the parameter
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-//	public static void writeWMahanalonisCovarianceMatrix(MatrixSymmetric covariance, Parameter parameter) throws IOException {
-//		String outputFilename = IOFile.getFilename(parameter.getParameterNormlization().getMahanalobisCovarianceMask(), parameter.show);
-//		logger.info("Mahanalobis Covariance write: " + outputFilename);
-//		MatrixIO.writeMatrix(covariance, outputFilename, false);
-//	}
-
-	/**
+	 * called
 	 * Read a GMM container.
 	 * 
 	 * @param parameter the parameter
@@ -375,6 +254,7 @@ public class MainTools {
 	}
 
 	/**
+	 * called
 	 * Read a gmm container.
 	 * 
 	 * @param inputStream the url og the GMM file
@@ -386,7 +266,9 @@ public class MainTools {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static GMMArrayList readGMMContainer(InputStream inputStream, ParameterModel parameterModel) throws DiarizationException, IOException {
-
+		if(inputStream == null){
+			System.out.println("-------------------");
+		}
 		IOFile inputFileReader = new IOFile(inputStream);
 
 		GMMArrayList gmmList = new GMMArrayList();
@@ -437,6 +319,7 @@ public class MainTools {
 	}
 
 	/**
+	 * called
 	 * Write the output clusters.
 	 * 
 	 * @param parameter the parameter
@@ -515,6 +398,7 @@ public class MainTools {
 	}
 
 	/**
+	 * called
 	 * Write a gmm container.
 	 * 
 	 * @param parameter the parameter

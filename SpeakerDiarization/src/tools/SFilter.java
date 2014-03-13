@@ -44,6 +44,7 @@ public class SFilter {
 	private final static Logger logger = Logger.getLogger(SFilter.class.getName());
 
 	/**
+	 * called
 	 * Adds the frame.
 	 * 
 	 * @param start the start
@@ -69,6 +70,7 @@ public class SFilter {
 	}
 
 	/**
+	 * called
 	 * Filter.
 	 * 
 	 * @param segmentMap the segment map
@@ -105,6 +107,7 @@ public class SFilter {
 	}
 
 	/**
+	 * called
 	 * Make.
 	 * 
 	 * @param clusterset the clusterset
