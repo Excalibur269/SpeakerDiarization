@@ -546,26 +546,30 @@ public class Diarization{
 
 		
 		ClusterSet twoMainClusters = new ClusterSet();
-		int max = 0;
-		int secondMax = 0;
-		int maxSegment = 0;
-		for(int j = 0;j < clusterSet.clusterGetSize();j++){
-			if(clusterSet.getClusterVectorRepresentation().get(j).getLength() > maxSegment){
-				maxSegment = clusterSet.getClusterVectorRepresentation().get(j).getLength();
-				max = j;
+		if(clusterSet.getClusterVectorRepresentation().size() > 0){
+			int max = 0;
+			int secondMax = 0;
+			int maxSegment = 0;
+			for(int j = 0;j < clusterSet.clusterGetSize();j++){
+				if(clusterSet.getClusterVectorRepresentation().get(j).getLength() > maxSegment){
+					maxSegment = clusterSet.getClusterVectorRepresentation().get(j).getLength();
+					max = j;
+				}
+			}
+			Cluster maxCluster = clusterSet.getClusterVectorRepresentation().get(max);
+			twoMainClusters.addCluster(maxCluster);
+			if(clusterSet.getClusterVectorRepresentation().size() > 1){
+				maxSegment = 0;
+				for(int j = 0;j < clusterSet.clusterGetSize();j++){
+					if(j != max && clusterSet.getClusterVectorRepresentation().get(j).getLength() > maxSegment){
+						maxSegment = clusterSet.getClusterVectorRepresentation().get(j).getLength();
+						secondMax = j;
+					}
+				}
+				Cluster secondMaxCluster = clusterSet.getClusterVectorRepresentation().get(secondMax);
+				twoMainClusters.addCluster(secondMaxCluster);
 			}
 		}
-		maxSegment = 0;
-		for(int j = 0;j < clusterSet.clusterGetSize();j++){
-			if(j != max && clusterSet.getClusterVectorRepresentation().get(j).getLength() > maxSegment){
-				maxSegment = clusterSet.getClusterVectorRepresentation().get(j).getLength();
-				secondMax = j;
-			}
-		}
-		Cluster maxCluster = clusterSet.getClusterVectorRepresentation().get(max);
-		Cluster secondMaxCluster = clusterSet.getClusterVectorRepresentation().get(secondMax);
-		twoMainClusters.addCluster(maxCluster);
-		twoMainClusters.addCluster(secondMaxCluster);
 		
 		// ** Train GMM for each cluster.
 		// ** GMM is a 16 component gaussian with diagonal covariance matrix
@@ -787,8 +791,19 @@ public class Diarization{
 		/** ----------------除掉silence部分----------------------- **/
 		ClusterSet clusterNoSilence = removeSilence(clustersSegSave,
 				clustersSegInit, clusterSet, featureSet, parameter);
+		
 		date = new Date();
-		System.err.println(date+"\tFinishing removing silence\t30% completed\n\tStarting linear clustering...");
+		if(clusterNoSilence.getClusterVectorRepresentation().size() == 0){
+			System.err.println(date+"\t this is a non-speech audio, system will exit");
+			Cluster cluster = new Cluster("-1");
+			Segment segment  = new Segment(" ", 0, 0, cluster, 100);
+			cluster.addSegment(segment);
+			ClusterSet clusterSet2 = new ClusterSet();
+			clusterSet2.addCluster(cluster);
+			MainTools.writeClusterSet(parameter, clusterSet2, true);
+			return;
+		}else
+			System.err.println(date+"\tFinishing removing silence\t30% completed\n\tStarting linear clustering...");
 		
 		int speechlength = 180;
 		if(clusterNoSilence.getLength() > speechlength*100){
@@ -833,37 +848,38 @@ public class Diarization{
 		date = new Date();
 		System.err.println(date+"\tFinishing decoding\t100% completed\n\tOutput result file...");
 
-		if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
-				thresholdIsLarge(clustersDClust)){
-			clusterThrehold = -2.8;
-			clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
-					parameter);
-			/** -----------viterbi 解码 resegmentation ---------------- **/
-			clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
-					parameter);
-			
-			if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
-					thresholdIsLarge(clustersDClust)){
-				clusterThrehold = -3.6;
-				clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
-						parameter);
-				/** -----------viterbi 解码 resegmentation ---------------- **/
-				clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
-						parameter);
-				if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
-						thresholdIsLarge(clustersDClust)){
-					clusterThrehold = -4;
-					clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
-							parameter);
-					/** -----------viterbi 解码 resegmentation ---------------- **/
-					clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
-							parameter);
-				}
-			}
-		}
+//		if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
+//				thresholdIsLarge(clustersDClust)){
+//			clusterThrehold = -2.8;
+//			clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
+//					parameter);
+//			/** -----------viterbi 解码 resegmentation ---------------- **/
+//			clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
+//					parameter);
+//			
+//			if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
+//					thresholdIsLarge(clustersDClust)){
+//				clusterThrehold = -3.6;
+//				clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
+//						parameter);
+//				/** -----------viterbi 解码 resegmentation ---------------- **/
+//				clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
+//						parameter);
+//				if(clustersDClust.getClusterVectorRepresentation().size() == 1 ||
+//						thresholdIsLarge(clustersDClust)){
+//					clusterThrehold = -4;
+//					clustersHClust = clustering(clusterThrehold, clustersLClust, featureSet,
+//							parameter);
+//					/** -----------viterbi 解码 resegmentation ---------------- **/
+//					clustersDClust = decode(16, 45, clustersHClust, clusterNoSilence,featureSet,
+//							parameter);
+//				}
+//			}
+//		}
+		clustersDClust = changeSpeakerName(clustersDClust);
 		clustersDClust = removeLittleSegment(clustersDClust);
 		clustersDClust.collapse(100);
-		MainTools.writeClusterSet(parameter, changeSpeakerName(clustersDClust), true);
+		MainTools.writeClusterSet(parameter, clustersDClust, true);
 	}
 	
 
@@ -1169,13 +1185,14 @@ public class Diarization{
 		} catch (DiarizationException e) {
 			logger.log(Level.SEVERE, "Diarization error", e);
 			e.printStackTrace();
+			
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "IOExecption error", e);
 			e.printStackTrace();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Execption error", e);
 			e.printStackTrace();
-		}
+		} 
 
 	}
 
